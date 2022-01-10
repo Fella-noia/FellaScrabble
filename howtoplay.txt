@@ -1,0 +1,47 @@
+ 
+
+
+
+
+                            |   |  +--+  |     |   --+--  +--+    +---+  |     +---+  |   |
+                            |   |  |  |  |     |     |    |  |    |   |  |     |   |   | |  
+                            +---+  |  |  |  +  |     |    |  |    +---+  |     +---+    +   
+                            |   |  |  |  | | | |     |    |  |    |      |     |   |    |   
+                            |   |  +--+  ||   ||     |    +--+    |      +---  |   |    |    
+
+                    ==============================================================================
+
+                           Before starting the game:
+                           1. Start the game with input '1' on main menu
+                           3. Then you have to add the names of player 1 and player 2.
+                           4. Select the level
+                               - Input '1' for easy level
+                               - Input '2' for medium level
+                               - Input '3' for hard level
+
+                           When playing game :
+                           1. Arrange letters based on 7 letter blocks that have been provided in
+			      the game
+                           2. Determine the location of the first letter that has been prepared on
+			      the board (If you are the first player in the first round, then 
+			      determine the location of the letters must pass the 8th row and column H)
+                           3. Determine the direction of the position of the words that have been
+			      arranged previously
+                              - Input 'H' to position words horizontally
+                              - Input 'V' to position words vertically
+                           4. Enter the words that have been arranged previously into the input
+                              - If the word entered is in accordance with the English dictionary, 
+                                the player will get points based on the series of letters arranged 
+                                and bonus on board position.
+                           5. If all the letter blocks run out or one of the players gives up then 
+			      the game is over.
+			   6. After the game ends the points of both players will be accumulated
+                           7. Players will get a point penalty if they skip a turn or run out of time 
+                              (exclude easy level) based on the level of the game.
+                              Penalty :
+                              - Easy : 1 poin every pass
+			      - Medium : 3 poin every pass or run out of time
+                              - Hard : 5 poin every pass or run out of time
+			   8. The winner will be determined based on the highest final score
+                           
+			   
