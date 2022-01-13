@@ -18,7 +18,6 @@
  	char blokHuruf[7];
  	bool win;
  	bool awalMain;
- 	bool bot;
  } pemain;
  
  typedef struct{
@@ -118,21 +117,21 @@
  	char n;
  	bool exit=false;
  	menu :
- 	system("cls");
+	system("cls");
 	mainMenu(); 	
  	scanf("%s", &n);
  	system("cls");
  	if (n=='1'){
- 		playTheGame();
+ 		playTheGame(); // inputan satu akan masuk ke modul playTheGame() untuk memulai game
 	} else if (n=='2') {
-		howToPlay();
+		howToPlay(); // inputan dua akan masuk ke modul howToPlay() untuk melihat cara bermain game
 	} else if (n=='3') {
-		tampilHighScore();
+		tampilHighScore(); // inputan tiga akan masuk ke modul tampilHighScore() untuk melihat daftar highscore
 	} else if (n=='4'){
-		tampilExit();
+		tampilExit(); // inputan empat akan menampilkan tampilan akhir dan keluar dari program
 		exit=true;
-	} else {
-		gotoxy(50, 26);printf("WRONG INPUT NUMBER.\n");
+	} else {	
+		getch();                                                                                           
 	    goto menu;
 	}   	 
  	
@@ -581,6 +580,12 @@
  
  // modul tampilBlokPemain()
  // untuk menampilkan 7 blok pemain
+ /*
+ 	Contoh : 
+ 	+---+---+---+---+---+---+---+
+ 	| A | I | B | J | N | U | D |
+ 	+---+---+---+---+---+---+---+
+ */
  void tampilBlokPemain(int giliran){
  	int i,a=10,b,x,y;
  	
@@ -830,12 +835,15 @@
 	batas=strlen(kata);
 	idxKata=0;
 	if (arah=='V' || arah=='v'){
+		// mencari mulai kata terbentuk dari arah atas
 		mulai=row-1;
  		while(infoPapan[row-i-1][kolom].huruf!=' ' && row-i-1>=0){
  			mulai=row-i-1;
 			i++;
 		}
 		i=0;
+		
+		// memasukan kedalam variabel kata terbentuk
 		while(infoPapan[mulai+i][kolom].huruf!=' '){
 			kata1[i]=infoPapan[mulai+i][kolom].huruf;
 			akhir=mulai+i;
@@ -854,17 +862,22 @@
 			akhir=mulai+i;
 		}
 		j=0;
+		
+		// mencari akhir kata terbentuk dan memasukan ke variabel kata terbentuk
 		while(infoPapan[akhir+j][kolom].huruf!=' ' && akhir+j<15){
 			kata1[i]=infoPapan[akhir+j][kolom].huruf;
 			j++;
 		}
 	}
 	else {
+		// mencari mulai kata terbentuk dari arah atas
 		mulai=kolom;
  		while(infoPapan[row-1][kolom-i].huruf!=' ' && kolom-i>=0){
  			mulai=kolom-i;
 			i++;
 		}
+		
+		// memasukan kedalam variabel kata terbentuk
 		i=0;
 		while(infoPapan[row-1][mulai+i].huruf!=' '){
 			kata1[i]=infoPapan[row-1][mulai+i].huruf;
@@ -883,12 +896,19 @@
 			akhir=mulai+i;
 		}
 		j=0;
+		
+		// mencari akhir kata terbentuk dan memasukan ke variabel kata terbentuk
 		while(infoPapan[row-1][akhir+j].huruf!=' '){
 			kata1[i]=infoPapan[row-1][akhir+j].huruf;
 			j++;
 		}
 	}
+	
+	// mengecek hasil kata terbentuk ke kamus
 	hasil_cekKamus=cekKamus(kata1);
+	
+	// mengecek apakah kata yang terbentuk masih berada dalam papan 
+	// yaitu baris antara 1-15 dan kolom antara A-O
 	hasil_cekPapan=cekPosisiPapan(akhir);
 	if (hasil_cekKamus==true && hasil_cekPapan==true){
 		strcpy(kataBaru,strupr(kata1));
@@ -1194,7 +1214,7 @@
 	while(ada==false && !feof(in_file))
 	{
         fscanf(in_file,"%s", cekKata);
-        if(strcmp(cekKata, strlwr(kata))==0){ //if match found
+        if(strcmp(cekKata, strlwr(kata))==0){ // kondisi jika kata yang dicari ada di kamus
 			ada = true;
 		}
 	}
@@ -1302,6 +1322,8 @@
 	if(sisaBlokHuruf()==0){
  		gotoxy(35,19);printf("There is no letter left");
 	} else {
+		// mencari total poin tambahan dari sisa blok yang ada
+		// contoh : terdapat sisa huruf A satu, dan C satu. Maka akumulasi poin tambahan adalah poin A=1+C=1 => 2
 		for (i=0;i<27;i++){
 	 		jml=infoHuruf[i].jumlah;
 	 		if (jml!=0){
@@ -1311,6 +1333,7 @@
 			}	
 		}	
 		gotoxy(35,19);printf("There are %d points for players who don't give up", poinTambahan);
+		// tambahan poin diberikan kepada pemain yang tidak menggunakan fitur menyerah
 		if (Pemain[0].menyerah==true){
 			Pemain[1].score=Pemain[1].score+poinTambahan;
 		} else {
@@ -1340,10 +1363,11 @@
 	gotoxy(35,16);printf("%s: %d", Pemain[0].nama, Pemain[0].waktuTerlewat);
 	gotoxy(35,17);printf("%s: %d", Pemain[1].nama, Pemain[1].waktuTerlewat);
 	
+	// menghitung poin akhir dengan mengurangi penalty jika ada
 	poinAkhir(level);
 	
 	y=19;
-	if (Pemain[0].menyerah==true || Pemain[1].menyerah==true){
+	if (Pemain[0].menyerah==true || Pemain[1].menyerah==true){ // mengecek apakah ada pemain yang menyerah
 		poinMenyerah();
 		y=21;
 	}
@@ -1355,6 +1379,7 @@
 	gotoxy(35,y);printf("%s: %d", Pemain[1].nama, Pemain[1].score);
 	y+=2;
 	
+	// dari poin yang sudah final maka akan dicari pemenang
 	pemenang();
 	if (Pemain[0].win==true && Pemain[1].win==true){
 		gotoxy(35,y);printf("===================================================");
@@ -1400,9 +1425,9 @@
  int batasWaktuInput(int level){
  	int waktu;
  	switch(level){
- 		case 1 : waktu=0; break;
- 		case 2 : waktu=120; break;
- 		case 3 : waktu=60; break;
+ 		case 1 : waktu=0; break; // untuk level 1/easy tidak ada batas waktu
+ 		case 2 : waktu=120; break; // untuk level 2/medium ada 2 menit batas waktu
+ 		case 3 : waktu=60; break; // untuk level 3/hard ada 1 menit batas waktu
 	}
 	return waktu;
  }
@@ -1474,6 +1499,7 @@
 		fread(&s[i],sizeof(highscore),1,fp);
 	}
 	
+	// mengurutkan highscore
 	for(i=0;i<n;i++){
 		for(j=i+1;j<n;j++){
 			if(s[j].score>s[i].score){
@@ -1498,6 +1524,7 @@
  	y++;
  	gotoxy(x,y);printf("-----------------------------------");
  	y++;
+ 	// menampilkan 10 data teratas yang sudah terurut
 	for(i=0;i<10;i++){
 		gotoxy(x,y);printf("%s", s[i].nama);
 		gotoxy(x+30,y);printf("%d", s[i].score);
